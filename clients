@@ -1,0 +1,35 @@
+
+
+
+Before creating a parser, figure out how to parse stream using Node
+
+
+
+Genium deserialize algorithm
+	Parse int into messageKey
+	Determine message type based on messageKey
+
+
+length of binary messages is specified by msg len field
+
+
+Genium binary
+	short - length
+	byte - soup type
+
+Reading stream
+	binary file client
+		No need to login
+
+		No need to maintain tcp connection w heartbeats
+
+		binary files only contain sequenced messages
+
+	Realtime stream
+		Includes both sequenced and other message types
+
+		Must login 
+
+		Must maintain soup connection via heartbeats
+
+		
