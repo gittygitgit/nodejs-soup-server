@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-soup-server",
+  "version": "1.0.0",
+  "description": "NodeJS implementation of the Soup TCP 2.0 specification",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gittygitgit/nodejs-soup-server.git"
+  },
+  "author": "mgrudkowski@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gittygitgit/nodejs-soup-server/issues"
+  },
+  "homepage": "https://github.com/gittygitgit/nodejs-soup-server"
+}

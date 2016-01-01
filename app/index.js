@@ -17,12 +17,27 @@ var config = {
   stream: true
 }
 
+// Schedules a connection timeout in the event a successful login hasn't been
+// performed.  
+// Returns a handle to the schedule event.
+function scheduleLoginRequestTimeout(timeoutInSec) {
+  return setTimeout(function() {
+    if (!loggedIn) {
+       con.end(util.format("No login request received in %d seconds...Terminating connection.", timeoutInSec));
+    }
+  }, timeoutInSec * 1000);
+}
+
+
+// Creates / returns a session token
 function generateSession() {
   return moment().format("MMDDYYYY");
 } 
 
+// Instantiate server object
+// Connection listener is passed in
 var server = net.createServer(function (con) {
-  //scheduled callbacks
+  // Register login timeout listener
   var loginTimer = scheduleLoginRequestTimeout(TIMEOUT_LOGIN_REQUEST_IN_SECONDS);
   var heartbeat;
   var clientMonitor;
@@ -33,11 +48,11 @@ var server = net.createServer(function (con) {
   
   util.log(util.format("Connection received [host=%s, port=%s]", con.remoteAddress, con.remotePort));
 
+  // Register data listener for the connection
   con.on('data', function(data) {
 
     var msgType = data.toString("utf-8", 0, 1); 
       // check for login 
-    util.log("not logged in yet");
     switch(msgType) {
     case 'L':
       // login request
@@ -53,6 +68,7 @@ var server = net.createServer(function (con) {
       util.log("Detected client heartbeat.");
       clearTimeout(clientMonitor);
       scheduleClientHeartbeatMonitor();
+      break;
     default:
       util.error("Heard unexpected data");
     }
@@ -64,6 +80,8 @@ var server = net.createServer(function (con) {
       util.error("Already logged in.");
       return;
     }
+
+    // Cancel previously scheduled login timeout event
     clearTimeout(loginTimer);
     util.log("Detected login request");
     loginTimer = scheduleLoginRequestTimeout(TIMEOUT_LOGIN_REQUEST_IN_SECONDS);
@@ -178,15 +196,6 @@ var server = net.createServer(function (con) {
     }, TIMEOUT_PUMP_IN_SECONDS * 1000);
   }
   
-  function scheduleLoginRequestTimeout(timeoutInSec) {
-    return setTimeout(function() {
-      if (!loggedIn) {
-        // timeout the connection if no login request received in 30 seconds
-        con.end(util.format("No login request received in %d seconds...Terminating connection.", timeoutInSec));
-      }
-    }, timeoutInSec * 1000);
-  }
-
   function pollForMessages() {
     // load messages not already served
     util.debug("polling for Messages" + currentSeqno);
@@ -229,6 +238,8 @@ var server = net.createServer(function (con) {
     currentSeqno = row['SEQNO'];
   }
 });
+
+// MAIN START====================
 var sessionid = generateSession();
 server.listen(8080, "localhost");
 console.log("TCP server has been set up on localhost and listening on port 8080.");
