@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/gittygitgit/nodejs-soup-server/issues"
   },
-  "homepage": "https://github.com/gittygitgit/nodejs-soup-server"
+  "homepage": "https://github.com/gittygitgit/nodejs-soup-server",
+  "dependencies": {
+    "chai": "^3.4.1"
+  }
 }
