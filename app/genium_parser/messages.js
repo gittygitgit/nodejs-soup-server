@@ -1,4 +1,5 @@
 var util = require("util");
+dej
 var BigNumber = require('bignumber.js')
 var fn = require('./functions.js');
 var sprintf = require('sprintf-js').sprintf
