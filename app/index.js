@@ -3,6 +3,27 @@ var util = require('util');
 var sql = require('mssql'); 
 var moment = require('moment');
 var s = require("underscore.string")
+var parseArgs=require('minimist')
+
+result = parseArgs(process.argv.slice(2))
+process.on('exit', function(code) {
+  switch(code) {
+    case 0:
+      break;
+    case 1:
+      console.log('Missing required argument:', 'squirrel');
+      break;
+    default:
+      console.log('Exiting with code:', code);
+  }
+});
+
+var sessionid = result['sessionid'];
+
+console.log(sessionid);
+if (sessionid == undefined) {
+  console.log("No session specified.  Will auto-generate one.")
+}
 
 var TIMEOUT_LOGIN_REQUEST_IN_SECONDS = 30;
 var TIMEOUT_HEARTBEAT_IN_SECONDS = 1;
@@ -240,6 +261,11 @@ var server = net.createServer(function (con) {
 });
 
 // MAIN START====================
-var sessionid = generateSession();
-server.listen(8080, "localhost");
+if (sessionid == undefined ) {
+  sessionid = generateSession();
+}
+
+var port = 8080;
+console.log("Starting to listen on port %d.", port);
+server.listen(port, "localhost");
 console.log("TCP server has been set up on localhost and listening on port 8080.");
