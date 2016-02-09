@@ -10,9 +10,6 @@ process.on('exit', function(code) {
   switch(code) {
     case 0:
       break;
-    case 1:
-      console.log('Missing required argument:', 'squirrel');
-      break;
     default:
       console.log('Exiting with code:', code);
   }
@@ -211,10 +208,11 @@ var server = net.createServer(function (con) {
   }
 
   function scheduleMessagePump(startSeqno) {
-    pump = setInterval(function() {
+    /*pump = setInterval(function() {
       // query for messages from store
       pollForMessages();
-    }, TIMEOUT_PUMP_IN_SECONDS * 1000);
+    }, TIMEOUT_PUMP_IN_SECONDS * 1000);*/
+
   }
   
   function pollForMessages() {

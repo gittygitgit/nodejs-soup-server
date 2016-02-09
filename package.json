@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/gittygitgit/nodejs-soup-server",
   "dependencies": {
-    "chai": "^3.4.1"
+    "chai": "^3.4.1",
+    "underscore.string": "^3.2.3"
   }
 }
