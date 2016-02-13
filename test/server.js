@@ -1,6 +1,6 @@
 var expect    = require("chai").expect;
 var util = require('util');
-var server = require('../app/server.js');
+var server = require('../server.js');
 
 describe("SoupServer", function() {
   describe("Sanity tests", function() {
