@@ -1,1 +1,3 @@
-Read data from file on connection...:wq!
+Read data from file on connection and send to client.
+
+

@@ -2,6 +2,8 @@ var SoupServer = require('../server.js').SoupServer;
 var ClientWorker = require('../libs/client-worker.js').ClientWorker;
 
 var util = require('util');
+
+/** Dictates various configurable server behavior. */
 var config = {
   "sessionid"          : "testing",
   "listeningPort"      : 9000,

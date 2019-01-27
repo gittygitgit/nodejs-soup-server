@@ -2,9 +2,7 @@ var moment = require('moment');
 var net = require('net');
 var util = require('util');
 
-/*
-* Soup server implementation
-*/ 
+/** Soup server constructor. */
 function SoupServer(config) {
   this.clients=[];
   this.sessionid=config['sessionid'];
@@ -15,6 +13,7 @@ function SoupServer(config) {
   this.generateSession = function() {
     return moment().format("MMDDYYYY");
   };
+  /** Creates server and starts listening on bind port.  If instance wasn't configured w/ sessionid, automatically generates one. */
   this.start = function() {
     // MAIN START====================
     if (this.sessionid == undefined ) {

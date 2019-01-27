@@ -1,9 +1,10 @@
-# nodejs-soup-server
-A Nodejs implementation of a SoupTCP 2.0 client and server. 
+Goals / Scope
+-------------
+The goal of this project was to evaluate node as a server-side language in the context of implementing a transport protocol.  
 
-The SoupTCP 2.0 specification can be found [here](https://www.nasdaqtrader.com/content/technicalsupport/specifications/dataproducts/souptcp.pdf).
 
-## Overview
+Overview
+--------
 SoupTCP is a client / server messaging protocol used in the financial industry. 
 
 The protocol allows information to be made available from a server application via TCP connection to clients.
@@ -12,66 +13,45 @@ Information delivered over the protocol is in either ascii or binary format.
 
 In order for a client to parse information, a parser must be used.
 
+The implementation implements all aspects of the protocol, including:
+ * login negotiation and authentication
+ * session request parameters
+ * connection management
+ * heartbeating 
+ * publishing of a sequenced stream of messages from configured session store  
 
 
-## Functionality
-#### Message schema
-Brewery
-Pos   Field              Type      Len         Val
-0     MsgType            byte      1           B
-1     Id                 byte      1 
-2     Name               byte[]    30
-32    Country            byte[]    20
+Message Parsing
+---------------
+It is outside the scope of the SoupTCP protocol how messages delivered are to be parsed and understood.  A separate message parsing framework is typically used.  Messages to be distributed by the server are appended to a "store" in binary / ascii format.  When received by the client, the client uses the same encoding / parsing library to decode the messages.
 
-Beer Style
-Pos   Field              Type      Len         Val
-0     MsgType            byte      1           S
-1     Id                 byte      1
-2     Name               byte[]    30
-
-Beer
-Pos   Field              Type      Len         Val
-0     MsgType            byte      1           A
-1     Id                 byte      1
-2     StyleId            byte      1    
-3     BreweryId          byte      1
-4     Name               byte[]    30
+Absent a fancy encoding, messages can simply be stored in human readable ascii and considered a notification stream.
 
 
-#### Encode message struct to binary format
-  
+Installation
+------------
 
-#### Generate parser
+Install Node / NPM
+https://nodejs.org/en/download/
 
-TODO: Create sample message stream.
+Use a version later than 9.0 of node to ensure ES6/7 features are supported.
 
-Brewery
-Id        short
-Name      byte[30]
+Install npm dependencies:
+```npm install```
 
-Beer Style
-Id        short
-Name      byte[30]
+Start server:
+from root directory
 
-Beer
-Id        short
-BreweryId short
-Name      byte[30]
-Abv       long
+```node example/testServer.js```
 
 
 
-npm install minimist
-# Usage
 
-node app/index.js
+```
 
-
-
-#### Process binary (squirrel) file 
+By default, the server listens on port 9000 and mounts a single session called "testing".  For a client to successfully request a specific session, the server must "mount" it.  The implementation will eventually support a current session and any number of archived sessions, each associated w/ a name that a client can reference in a login request.
 
 
-#### Process database store
-
-## Goals
-```npm test```
+Create documentation
+--------------------
+jsdoc [filename]
